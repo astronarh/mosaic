@@ -6,6 +6,10 @@ import ij.io.FileSaver;
 import ij.process.ImageProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MainController {
@@ -15,9 +19,11 @@ public class MainController {
         return "index.html";
     }
 
-    @GetMapping("/image")
-    public String image() {
-        ImagePlus imagePlus = IJ.openImage("D:\\Проекты\\mosaic\\src\\main\\resources\\static\\img\\forest.JPG");
+    @PostMapping("/image")
+    public String uploadImage(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        return "index.html";
+        /*ImagePlus imagePlus = IJ.openImage("D:\\Проекты\\mosaic\\src\\main\\resources\\static\\img\\forest.JPG");
 
         ImageProcessor imageProcessor = imagePlus.getProcessor();
 
@@ -29,6 +35,6 @@ public class MainController {
 
         FileSaver fileSaver = new FileSaver(imagePlus);
 
-        return fileSaver.getDescriptionString();
+        return fileSaver.getDescriptionString();*/
     }
 }
