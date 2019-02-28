@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
-public class Image {
+public class ImageEntity {
     @Id
     @Column(name = "id")
     private Long id;
@@ -19,9 +19,9 @@ public class Image {
     @Column(name="pic")
     private byte[] pic;
 
-    public Image(){}
+    public ImageEntity(){}
 
-    public Image(long id, String name, String type, byte[] pic){
+    public ImageEntity(long id, String name, String type, byte[] pic){
         this.id = id;
         this.name = name;
         this.type = type;

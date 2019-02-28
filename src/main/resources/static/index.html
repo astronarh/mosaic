@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="/js/datatable.js"></script>
 </head>
     <img src="img/forest.JPG" alt="">
 
-    <form method="POST" action="/image" enctype="multipart/form-data">
+    <form method="POST" action="/image" enctype="multipart/form-data" id="image-form">
         <input type="file" name="file" /><br/><br/>
-        <input type="submit" value="Submit" />
+        <input type="text" name="brightness" /><br/><br/>
+        <input type="submit" value="Submit" id="send"/>
     </form>
+
+    <h1>Images Table</h1>
+    <table id="imagesTable" class="display">
+        <!-- Header Table -->
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <!-- Footer Table -->
+        <tfoot>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Data</th>
+        </tr>
+        </tfoot>
+    </table>
 </html>
