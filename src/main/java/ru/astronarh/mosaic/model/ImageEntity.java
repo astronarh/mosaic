@@ -1,6 +1,7 @@
 package ru.astronarh.mosaic.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "images")
@@ -58,5 +59,15 @@ public class ImageEntity {
 
     public void setPic(byte[] pic){
         this.pic = pic;
+    }
+
+    @Override
+    public String toString() {
+        return "ImageEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", pic=" + Arrays.toString(pic) +
+                '}';
     }
 }

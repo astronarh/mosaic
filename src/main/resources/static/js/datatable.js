@@ -14,4 +14,27 @@ $(document).ready( function () {
             }
         ]
     });
+
+    $('#brightness').change(function () {
+        $('#brightness-value').text($('#brightness').val());
+
+        $.post('/updateImage', { brightness : $('#brightness').val() } );
+
+        sleep(500);
+
+        $.post('/getImage', function (data) {
+            $('#image').attr('src', 'data:image/jpeg;base64,' + data.pic);
+        })
+    });
+
+    //$('#image').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==')
+
+    $.post('/getImage', function (data) {
+        $('#image').attr('src', 'data:image/jpeg;base64,' + data.pic);
+    })
 });
+
+function sleep(ms) {
+    ms += new Date().getTime();
+    while (new Date() < ms){}
+}

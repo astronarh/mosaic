@@ -11,11 +11,14 @@
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="/js/datatable.js"></script>
 </head>
-    <img src="img/forest.JPG" alt="">
+    <img src="" alt="" id="image">
 
     <form method="POST" action="/image" enctype="multipart/form-data" id="image-form">
-        <input type="file" name="file" /><br/><br/>
-        <input type="text" name="brightness" /><br/><br/>
+        <input type="file" name="file" id="file"/><br/><br/>
+        <label id="brightness-value"></label>
+        <label>
+            <input type="range" min="0" max="2" step="0.01" value="1" name="brightness" id="brightness">
+        </label>
         <input type="submit" value="Submit" id="send"/>
     </form>
 
