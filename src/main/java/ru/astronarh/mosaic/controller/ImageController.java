@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.awt.image.RescaleOp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +24,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -141,8 +145,8 @@ public class ImageController {
     }
 
     @PostMapping("/getPixelatedImage")
-    public void pixelatedImage() {
-
+    public String pixelatedImage() throws IOException {
+        return pixelateImage();
     }
 
     private void changeBrightness(float brightness) throws IOException {
@@ -187,7 +191,72 @@ public class ImageController {
         Files.write(tmpFile, pic);
     }
 
-    public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
-        return Thumbnails.of(img).size(newW, newH).asBufferedImage();
+    private static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
+
+        BufferedImage newImage = Thumbnails.of(img).size(newW, newH).asBufferedImage();
+
+        return newImage;
+    }
+
+    private String pixelateImage() throws IOException {
+
+        StringBuilder pixelatedImage = new StringBuilder();
+
+        pixelatedImage.append("<table>");
+
+        byte[] pic = Files.readAllBytes(tmpFile);
+
+        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(pic));
+
+        int[] pixel;
+
+        List<String> uniquePixel = new ArrayList<>();
+
+//        int countColor = 33;
+
+        for (int y = 0; y < bufferedImage.getHeight(); y++) {
+
+            pixelatedImage.append("<tr height=20>");
+
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                pixel = bufferedImage.getRaster().getPixel(x, y, new int[3]);
+
+                String colorHex = colorReductor(pixel);
+
+                if(!uniquePixel.contains(colorHex)) {
+                    uniquePixel.add(colorHex);
+
+                    pixelatedImage.append("<td style='font-family:Calibri' width=20 bgcolor='#" + colorHex + "'>&#" + uniquePixel.indexOf(colorHex) + "</td>");
+
+//                    countColor++;
+
+                } else {
+                    pixelatedImage.append("<td style='font-family:Calibri' width=20 bgcolor='#" + colorHex + "'>&#" + uniquePixel.indexOf(colorHex) + "</td>");
+
+                }
+            }
+//            System.out.println();
+
+            pixelatedImage.append("</tr>");
+        }
+
+//        countColor = 0;
+
+        pixelatedImage.append("</table>");
+
+        return pixelatedImage.toString();
+
+    }
+
+    private String colorReductor(int[] pixel) {
+        pixel[0] = pixel[0] / 10 * 10;
+
+        pixel[1] = pixel[1] / 10 * 10;
+
+        pixel[2] = pixel[2] / 10 * 10;
+
+        String colorHex = (Integer.toHexString(pixel[0]).length() > 1 ? Integer.toHexString(pixel[0]) : "0" + Integer.toHexString(pixel[0])) + "" + (Integer.toHexString(pixel[1]).length() > 1 ? Integer.toHexString(pixel[1]) : "0" + Integer.toHexString(pixel[1])) + "" + (Integer.toHexString(pixel[2]).length() > 1 ? Integer.toHexString(pixel[2]) : "0" + Integer.toHexString(pixel[2]));
+
+        return colorHex;
     }
 }

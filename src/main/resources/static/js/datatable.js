@@ -24,7 +24,12 @@ $(document).ready( function () {
 
         $.post('/getImage', function (data) {
             $('#image').attr('src', 'data:image/jpeg;base64,' + data.pic);
-        })
+        });
+
+        $.post('/getPixelatedImage', function (data) {
+            $('#image_table').html("");
+            $('#image_table').append(data);
+        });
     });
 
     //$('#image').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==')
